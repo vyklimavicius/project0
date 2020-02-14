@@ -8,6 +8,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.klimavicius.model.User;
+
 public class UserTest {
 
 	public UserTest() {
@@ -16,7 +18,7 @@ public class UserTest {
 
 	@Test
 	public void testAccount() {
-		User testUser = new User("user@user.com", "user", "userpassword");
+		User testUser = new User(1, "user@user.com", "user", "userpassword");
 		boolean check = testUser == null ? true : false;
 		assertFalse(check);
 	}
