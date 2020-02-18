@@ -167,19 +167,38 @@ public class UserUI {
 				System.out.println("|Welcome to BankForMe|");
 				System.out.println(" --------------------");
 				System.out.println("How much you want to deposit: ");
-				double addBalance = input.nextDouble();
-				accountController.deposit(currentAccount, addBalance);
-				System.out.println("Moving your money...");
-				currentAccount = accountController.getAccountByUser(userId);
-				System.out.println("New balance: " + currentAccount.getBalance());
-				if (next.isEmpty()) {
-					System.out.println("Press Enter Key.");
-				}
+				if(input.hasNextDouble()){
+					double addBalance = input.nextDouble();
+					if (addBalance < 0.0){
+						System.out.println("You can't deposit negative values!");
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					} else {
+						accountController.deposit(currentAccount, addBalance);
+						System.out.println("Moving your money...");
+						currentAccount = accountController.getAccountByUser(userId);
+						System.out.println("New balance: " + currentAccount.getBalance());
+						if (next.isEmpty()) {
+							System.out.println("Press Enter Key.");
+						}
+		
+						if (input.hasNextLine()) {
+							next = input.nextLine();
+						} else {
+							next = null;
+						}
+					}
 
-				if (input.hasNextLine()) {
-					next = input.nextLine();
 				} else {
-					next = null;
+					System.out.println("Incorrect input!");
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 				accountInfo(userLogin);
 				break;
@@ -190,33 +209,53 @@ public class UserUI {
 				System.out.println("|Welcome to BankForMe|");
 				System.out.println(" --------------------");
 				System.out.println("How much you want to withdraw: ");
-				double withdrawBalance = input.nextDouble();
-				if (currentAccount.getBalance() < withdrawBalance) {
-					System.out.println("Sorry, you don't have enough money!");
-					if (next.isEmpty()) {
-						System.out.println("Press Enter Key.");
+				if(input.hasNextDouble()){
+					double withdrawBalance = input.nextDouble();
+					if (withdrawBalance < 0.0) {
+						System.out.println("You can't withdraw negative values!");
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					} else {
+						if (currentAccount.getBalance() < withdrawBalance) {
+							System.out.println("Sorry, you don't have enough money!");
+							if (next.isEmpty()) {
+								System.out.println("Press Enter Key.");
+							}
+		
+							if (input.hasNextLine()) {
+								next = input.nextLine();
+							} else {
+								next = null;
+							}
+						} else {
+							accountController.withdraw(currentAccount, withdrawBalance);
+							System.out.println("Moving your money...");
+							currentAccount = accountController.getAccountByUser(userId);
+							System.out.println("New balance: " + currentAccount.getBalance());
+							if (next.isEmpty()) {
+								System.out.println("Press Enter Key.");
+							}
+		
+							if (input.hasNextLine()) {
+								next = input.nextLine();
+							} else {
+								next = null;
+							}
+						}
+						
 					}
 
-					if (input.hasNextLine()) {
-						next = input.nextLine();
-					} else {
-						next = null;
-					}
 				} else {
-					accountController.withdraw(currentAccount, withdrawBalance);
-					System.out.println("Moving your money...");
-					currentAccount = accountController.getAccountByUser(userId);
-					System.out.println("New balance: " + currentAccount.getBalance());
-					if (next.isEmpty()) {
-						System.out.println("Press Enter Key.");
+					System.out.println("Incorrect input!");
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
 					}
-
-					if (input.hasNextLine()) {
-						next = input.nextLine();
-					} else {
-						next = null;
-					}
-					}
+				}
 				accountInfo(userLogin);
 				break;
 				case '3':
