@@ -4,23 +4,60 @@ package com.klimavicius.model;
 
 public class Account {
 
+	@Override
+	public String toString() {
+		return "Account [accountId=" + accountId + ", userId=" + userId + ", balance=" + balance + "]";
+	}
+
+
 	//Fields
 	int accountId, userId;
-	Long balance;
+	double balance;
 
 
 	//Constructor
-
-	public Account(int accountId, int userId, Long balance) {
+	public Account(int accountId, int userId, double balance) {
 		this.accountId = accountId;
 		this.userId = userId;
 		this.balance = balance;
 	}
 	
-	//With JDBC
-	/**
-	 * Make setter and getters for fields and private access modifiers
-	 */
+	public Account(int userId, double balance) {
+		this.userId = userId;
+		this.balance = balance;
+	}
+
+
+	public int getAccountId() {
+		return accountId;
+	}
+
+
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
+	}
+
+
+	public int getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+
+	public double getBalance() {
+		return balance;
+	}
+
+
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+	
+	
 
 
 

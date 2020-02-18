@@ -62,11 +62,13 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public int createUser(User u) {
 		String sql = "insert into users (username, email, password) values (?, ?, ?)";
+		ResultSet rs = null;
 		
 		try(Connection c = ConnectionUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)){
 			ps.setString(1, u.getUsername());
 			ps.setString(2, u.getEmail());
 			ps.setString(3, u.getPassword());
+			rs = ps.executeQuery();
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -75,14 +77,58 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public int updateUser(User u) {
-//		String sql = "update user set "
-		return 0;
+	public User updateUser(String column, User u) {
+		int user_id = u.getUserId();
+		ResultSet rs = null;
+		String sql = null;
+		switch(column) {
+		case "username":
+			sql = "update users set username = ? where user_id = ?";
+			try(Connection c = ConnectionUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)){
+				ps.setString(1, u.getUsername());
+				ps.setInt(2, user_id);
+			    ps.executeUpdate();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+		case "email":
+			sql = "update users set email = ? where user_id = ?";
+			try(Connection c = ConnectionUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)){
+				ps.setString(1, u.getEmail());
+				ps.setInt(2, user_id);
+				ps.executeUpdate();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+		case "password":
+			sql = "update users set password = ? where user_id = ?";
+			try(Connection c = ConnectionUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)){
+				ps.setString(1, u.getPassword());
+				ps.setInt(2, user_id);
+				ps.executeUpdate();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+		default:
+			break;
+		}
+		return u;
 	}
 
 	@Override
 	public int deleteUser(User u) {
-		// TODO Auto-generated method stub
+		String sql = "delete from users where user_id = ?";
+		int user_id = u.getUserId();
+		try(Connection c = ConnectionUtil.getConnection(); 
+			PreparedStatement ps = c.prepareStatement(sql)) { 
+			ps.setInt(1,user_id);
+			ps.execute(sql);
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
 		return 0;
 	}
 
@@ -108,6 +154,28 @@ public class UserDaoImpl implements UserDao{
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+		return u;
+	}
+
+	@Override
+	public User getUserByUsername(String s) {
+		String sql = "Select * from users where username = ?";
+		User u = null;
+
+		try (Connection c = ConnectionUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+			ps.setString(1, s);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				int userId = rs.getInt("user_id");
+				String username = rs.getString("username");
+				String email = rs.getString("email");
+				String password = rs.getString("password");
+				u = new User(userId, email, username, password);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 		return u;
 	}
 

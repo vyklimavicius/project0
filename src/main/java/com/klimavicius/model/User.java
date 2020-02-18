@@ -22,8 +22,14 @@ public class User implements Serializable{
 	}
 
 	public User(int userId, String email, String username, String password) {
-		String encryptedHash = BCrypt.hashpw(password, BCrypt.gensalt());
 		this.userId = userId;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+	}
+	
+	public User(String email, String username, String password) {
+		String encryptedHash = BCrypt.hashpw(password, BCrypt.gensalt());
 		this.email = email;
 		this.username = username;
 		this.password = encryptedHash;
@@ -32,16 +38,37 @@ public class User implements Serializable{
 	public int getUserId() {
 		return this.userId;
 	}
+	
+	public void setUserID(int userID) {
+		this.userId = userID;
+	}
+	
 	public String getEmail(){
 		return this.email;
 	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 	public String getUsername(){
 		return this.username;
 	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
 	public String getPassword(){
 		return this.password;
 	}
-
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	
+	
 	
 	// With JDBC
 	/**
