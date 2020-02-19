@@ -382,6 +382,8 @@ public class UserUI {
 		System.out.println(" --------------------");
 		System.out.println("|      Goodbye!     |");
 		System.out.println("|       VK2020      |");
+		System.out.println("|     Always be     |");
+		System.out.println("|    a beginner...  |");
 		System.out.println(" --------------------");
 		System.exit(0);	
 	}
